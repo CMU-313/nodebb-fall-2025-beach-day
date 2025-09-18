@@ -4,7 +4,6 @@ const db = require('../database');
 const plugins = require('../plugins');
 
 module.exports = function (Posts) {
-	
 	Posts.bookmark = async (pid, uid) => toggleBookmark(true, pid, uid);
 	Posts.unbookmark = async (pid, uid) => toggleBookmark(false, pid, uid);
 
