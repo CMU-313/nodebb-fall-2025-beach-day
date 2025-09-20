@@ -8,6 +8,13 @@ const routeHelpers = require('../helpers');
 const { setupApiRoute } = routeHelpers;
 
 module.exports = function () {
+
+	setupApiRoute(router, 'get', '/test', (req, res) => {
+    console.log('Test route hit!');
+    res.json({ ok: true });
+});
+
+
 	const middlewares = [middleware.ensureLoggedIn, middleware.assert.post];
 
 	setupApiRoute(router, 'get', '/:pid', [middleware.assert.post], controllers.write.posts.get);
@@ -24,6 +31,14 @@ module.exports = function () {
 
 	setupApiRoute(router, 'put', '/:pid/move', [...middlewares, middleware.checkRequired.bind(null, ['tid'])], controllers.write.posts.move);
 
+	console.log('Posts router loaded');
+	setupApiRoute(router, 'put', '/:pid/endorse', middlewares, (req, res) => {
+		console.log('ENDORSE ROUTE HIT', req.params.pid);
+		res.json({ code: 200 });
+	});
+setupApiRoute(router, 'delete', '/:pid/endorse', middlewares, controllers.write.posts.unendorse);
+	setupApiRoute(router, 'get', '/:pid/endorse', [middleware.assert.post], controllers.write.posts.getEndorseStatus);
+	
 	setupApiRoute(router, 'put', '/:pid/vote', [...middlewares, middleware.checkRequired.bind(null, ['delta'])], controllers.write.posts.vote);
 	setupApiRoute(router, 'delete', '/:pid/vote', middlewares, controllers.write.posts.unvote);
 	setupApiRoute(router, 'get', '/:pid/voters', [middleware.assert.post], controllers.write.posts.getVoters);

@@ -131,7 +131,7 @@
 							<i class="fa fa-fw fa-chevron-down text-primary"></i>
 						</a>
 
-						<a component="post/endrose" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
+						<a component="post/endorse" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
 							{{{ if posts.endorsed }}}
 							<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
 							{{{ else }}}
