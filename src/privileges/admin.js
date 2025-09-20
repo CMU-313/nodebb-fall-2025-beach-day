@@ -54,6 +54,7 @@ privsAdmin.routeMap = {
 	dashboard: 'admin:dashboard',
 	'manage/categories': 'admin:categories',
 	'manage/privileges': 'admin:privileges',
+	'manage/leaderboard': 'admin:users',
 	'manage/admins-mods': 'admin:admins-mods',
 	'manage/users': 'admin:users',
 	'manage/groups': 'admin:groups',
