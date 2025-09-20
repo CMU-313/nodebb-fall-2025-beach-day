@@ -128,9 +128,13 @@ exports.postCommand = async function (caller, command, eventName, notification, 
 	return await executeCommand(caller, command, eventName, notification, filteredData.data);
 };
 
+
 async function executeCommand(caller, command, eventName, notification, data) {
 	const api = require('.');
-	const result = await posts[command](data.pid, caller.uid);
+	// Pass category (if present) along to posts command. Most posts.* handlers
+	// accept (pid, uid) and will ignore extra args; `posts.bookmark` accepts
+	// a third `category` argument added earlier.
+	const result = await posts[command](data.pid, caller.uid, data.category);
 	if (result && eventName) {
 		websockets.in(`uid_${caller.uid}`).emit(`posts.${command}`, result);
 		websockets.in(data.room_id).emit(`event:${eventName}`, result);
