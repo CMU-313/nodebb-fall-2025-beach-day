@@ -180,22 +180,24 @@ categoriesController.getFederation = async function (req, res) {
 categoriesController.getLeaderboard = async function (req, res) {
 	const cid = req.params.category_id;
 	
-	// Test basic category access
+	// Test category access
 	const category = await categories.getCategoryData(cid);
 	if (!category) {
 		return res.status(404).json({ error: 'Category not found' });
 	}
 	
-	// Return basic info about the category with mock leaderboard data
+	// Get leaderboard data from Categories module
+	const leaderboardData = await categories.getUserLeaderboard(cid, {
+		start: parseInt(req.query.start, 10) || 0,
+		limit: parseInt(req.query.limit, 10) || 50,
+		sortBy: req.query.sortBy || 'total',
+		order: req.query.order || 'desc',
+	});
+	
+	// Return the leaderboard data
 	res.json({
-		message: 'Leaderboard endpoint works!',
 		cid: cid,
 		categoryName: category.name,
-		categoryDescription: category.description,
-		leaderboard: [
-			{ rank: 1, username: 'admin', posts: 15, topics: 8, total: 23 },
-			{ rank: 2, username: 'student1', posts: 12, topics: 5, total: 17 },
-			{ rank: 3, username: 'student2', posts: 8, topics: 3, total: 11 },
-		],
+		...leaderboardData,
 	});
 };
