@@ -176,3 +176,8 @@ categoriesController.getFederation = async function (req, res) {
 		followers,
 	});
 };
+
+categoriesController.getLeaderboard = async function (req, res) {
+	// Simple test first
+	res.json({ message: 'Leaderboard endpoint works!' });
+};
