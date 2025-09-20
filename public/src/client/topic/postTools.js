@@ -133,6 +133,12 @@ define('forum/topic/postTools', [
 			return votes.toggleVote($(this), '.upvoted', 1);
 		});
 
+		postContainer.on('click', '[component="post/endorse"], [component="post/endrose"]', function (e) {
+			e.preventDefault();
+			console.log('The endorse button is under development. Please use upvote instead.');
+			alerts.info('The endorse button is under development. Please use upvote instead.');
+		});
+
 		postContainer.on('click', '[component="post/downvote"]', function () {
 			return votes.toggleVote($(this), '.downvoted', -1);
 		});
