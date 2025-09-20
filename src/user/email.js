@@ -101,6 +101,15 @@ UserEmail.canSendValidation = async (uid, email) => {
 
 	return (ttl || Date.now()) + interval < max;
 };
+function helperValidation(options) {
+	if (typeof options === 'string') {
+		options = {
+			email: options,
+		};
+	}
+	return options || {};
+}
+
 
 UserEmail.sendValidationEmail = async function (uid, options) {
 	/*
@@ -115,15 +124,8 @@ UserEmail.sendValidationEmail = async function (uid, options) {
 		return;
 	}
 
-	options = options || {};
-
-	// Fallback behaviour (email passed in as second argument)
-	if (typeof options === 'string') {
-		options = {
-			email: options,
-		};
-	}
-
+	options = helperValidation(options);
+	
 	// If no email passed in (default), retrieve email from uid
 	if (!options.email || !options.email.length) {
 		options.email = await user.getUserField(uid, 'email');
