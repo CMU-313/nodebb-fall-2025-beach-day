@@ -126,6 +126,25 @@ body.template-topic {
 					opacity: 0;
 					transition: $transition-fade;
 
+					// If the actions container itself contains an endorsed button, show it
+					// Uses :has() (supported in modern browsers). See fallback below for
+					// older browsers — the template can add a `.has-endorsed` class to
+					// the post element when `posts.endorsed` is true.
+					&:has([component="post/endrose"].endorsed) {
+						opacity: 1;
+
+						// Make only the endorse button visible; hide other action buttons
+						> .post-tools > * {
+							opacity: 0;
+							pointer-events: none;
+						}
+						> .post-tools > [component="post/endrose"],
+						> .post-tools > [component="post/endrose"] * {
+							opacity: 1;
+							pointer-events: auto;
+						}
+					}
+
 					&:has([aria-expanded="true"]) {
 						opacity: 1;
 					}
@@ -136,6 +155,27 @@ body.template-topic {
 				&:hover {
 					> div > .post-container > [component="post/footer"] > div > [component="post/actions"] {
 						opacity: 1;
+					}
+				}
+
+				// Fallback for browsers without :has(): if the template adds
+				// `class="has-endorsed"` to the `[component="post"]` element when
+				// the post is endorsed, this will also force the actions to be
+				// visible. (Template-only solution; no JS required.)
+				&.has-endorsed {
+					> div > .post-container > [component="post/footer"] > div > [component="post/actions"] {
+						opacity: 1;
+
+						// Show only the endorse button for the fallback method too
+						> .post-tools > * {
+							opacity: 0;
+							pointer-events: none;
+						}
+						> .post-tools > [component="post/endrose"],
+						> .post-tools > [component="post/endrose"] * {
+							opacity: 1;
+							pointer-events: auto;
+						}
 					}
 				}
 			}
