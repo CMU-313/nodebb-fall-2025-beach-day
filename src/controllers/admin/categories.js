@@ -180,7 +180,7 @@ categoriesController.getFederation = async function (req, res) {
 categoriesController.getLeaderboard = async function (req, res) {
 	const cid = req.params.category_id;
 	
-	// Test category access
+	// validate category
 	const category = await categories.getCategoryData(cid);
 	if (!category) {
 		return res.status(404).json({ error: 'Category not found' });
@@ -194,7 +194,6 @@ categoriesController.getLeaderboard = async function (req, res) {
 		order: req.query.order || 'desc',
 	});
 	
-	// Return the leaderboard data
 	res.json({
 		cid: cid,
 		categoryName: category.name,
