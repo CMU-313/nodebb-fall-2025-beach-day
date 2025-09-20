@@ -123,8 +123,18 @@ body.template-topic {
 		.topic .posts {
 			[component="post"] {
 				[component="post/actions"] {
+					
 					opacity: 0;
 					transition: $transition-fade;
+
+					// If the actions container itself contains an endorsed button, show it
+					// Uses :has() (supported in modern browsers). See fallback below for
+					// older browsers — the template can add a `.has-endorsed` class to
+					// the post element when `posts.endorsed` is true.
+					&:has([component="post/endrose"].endorsed) {
+						opacity: 0;
+						transition: $transition-fade;
+					}
 
 					&:has([aria-expanded="true"]) {
 						opacity: 1;
@@ -133,9 +143,66 @@ body.template-topic {
 				[component="post/actions"]:focus-within {
 					opacity: 1;
 				}
+
+				// Fallback for browsers without :has(): if the template adds
+				// `class="has-endorsed"` to the `[component="post"]` element when
+				// the post is endorsed, this will also force the actions to be
+				// visible. (Template-only solution; no JS required.)
+				&.has-endorsed {
+					> div > .post-container > [component="post/footer"] > div > [component="post/actions"] {
+						opacity: 1;
+
+						// Fallback: hide direct action anchors except endorse, keep votes
+						> a:not([component="post/endrose"]) {
+							opacity: 0;
+							pointer-events: auto;
+						}
+						> .votes {
+							opacity: 1;
+							pointer-events: auto;
+						}
+						> .votes a:not([component="post/endrose"]) {
+							opacity: 0;
+							pointer-events: auto;
+						}
+						[component="post/endrose"],
+						[component="post/endrose"] * {
+							opacity: 1;
+							pointer-events: auto;
+						}
+
+						// Hover fallback: when the post or actions area is hovered, restore
+						// non-endorse anchors to their normal interactive state.
+						> div > .post-container > [component="post/footer"] > div > [component="post/actions"]:hover > a:not([component="post/endrose"]),
+						> div > .post-container > [component="post/footer"] > div > [component="post/actions"] > .votes:hover a:not([component="post/endrose"]){
+							opacity: 1;
+							pointer-events: auto;
+						}
+					}
+				}
+
 				&:hover {
 					> div > .post-container > [component="post/footer"] > div > [component="post/actions"] {
 						opacity: 1;
+						transition: $transition-fade;
+
+						> a:not([component="post/endrose"]) {
+							opacity: 1;
+							pointer-events: auto;
+						}
+						> .votes {
+							opacity: 1;
+							pointer-events: auto;
+						}
+						> .votes a:not([component="post/endrose"]) {
+							opacity: 1;
+							pointer-events: auto;
+						}
+						[component="post/endrose"],
+						[component="post/endrose"] * {
+							opacity: 1;
+							pointer-events: auto;
+						}
 					}
 				}
 			}

@@ -295,4 +295,9 @@ $(document).ready(function () {
 		mainNavEl.on('shown.bs.dropdown', toggleOverflow)
 			.on('hidden.bs.dropdown', toggleOverflow);
 	}
+
+	// Load temporary front-end-only endorse toggle (purely visual/demo)
+	require(['./endorse-toggle-temp'], function () {
+		// module loads and self-initializes
+	});
 });
