@@ -130,6 +130,14 @@
 						<a component="post/downvote" href="#" class="btn btn-ghost btn-sm{{{ if posts.downvoted }}} downvoted{{{ end }}}" title="[[topic:downvote-post]]">
 							<i class="fa fa-fw fa-chevron-down text-primary"></i>
 						</a>
+
+						<a component="post/endrose" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
+							{{{ if posts.endorsed }}}
+							<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
+							{{{ else }}}
+							<i class="fa fa-fw fa-thumbs-up text-muted" aria-hidden="true"></i>
+							{{{ end }}}
+						</a>
 						{{{ end }}}
 					</div>
 					{{{ end }}}
