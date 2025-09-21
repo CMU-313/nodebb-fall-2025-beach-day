@@ -37,6 +37,7 @@
 				<a class="btn btn-ghost btn-sm text-start" href="{relative_path}/admin/manage/privileges">[[admin/menu:manage/privileges]]</a>
 				{{{ end }}}
 				{{{ if user.privileges.admin:users }}}
+				<a class="btn btn-ghost btn-sm text-start" href="{relative_path}/admin/manage/leaderboard">[[admin/menu:manage/leaderboard]]</a>
 				<a class="btn btn-ghost btn-sm text-start" id="manage-users" href="{relative_path}/admin/manage/users">[[admin/menu:manage/users]]</a>
 				{{{ end }}}
 				{{{ if user.privileges.admin:groups }}}

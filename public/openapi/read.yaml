@@ -128,6 +128,8 @@ paths:
     $ref: 'read/admin/manage/categories/category_id/federation.yaml'
   "/api/admin/manage/categories/{category_id}/leaderboard":
     $ref: 'read/admin/manage/categories/category_id/leaderboard.yaml'
+  /api/admin/manage/leaderboard:
+    $ref: 'read/admin/manage/leaderboard.yaml'
   "/api/admin/manage/privileges/{cid}":
     $ref: 'read/admin/manage/privileges/cid.yaml'
   /api/admin/manage/tags:

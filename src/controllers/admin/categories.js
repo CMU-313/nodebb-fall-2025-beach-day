@@ -177,6 +177,110 @@ categoriesController.getFederation = async function (req, res) {
 	});
 };
 
+categoriesController.getLeaderboardPage = async function (req, res) {
+	const allowedSorts = ['total', 'posts', 'topics'];
+	const allowedLimits = [10, 25, 50, 100, 200];
+
+	let cid = parseInt(req.query.cid, 10);
+	if (!Number.isInteger(cid) || cid <= 0) {
+		cid = null;
+	}
+
+	let sortBy = (req.query.sortBy || 'total').toLowerCase();
+	if (!allowedSorts.includes(sortBy)) {
+		sortBy = 'total';
+	}
+
+	let order = (req.query.order || 'desc').toLowerCase();
+	order = order === 'asc' ? 'asc' : 'desc';
+
+	let limit = parseInt(req.query.limit, 10);
+	if (!allowedLimits.includes(limit)) {
+		limit = 50;
+	}
+
+	let page = Math.max(1, parseInt(req.query.page, 10) || 1);
+	let start = (page - 1) * limit;
+
+	const selectedData = await helpers.getSelectedCategory(cid || undefined);
+
+	let category = null;
+	let leaderboard = {
+		cid,
+		rows: [],
+		totalUsers: 0,
+		sortBy,
+		order,
+		start,
+		limit,
+	};
+
+	if (cid) {
+		category = await categories.getCategoryData(cid);
+		if (category) {
+			leaderboard = await categories.getUserLeaderboard(cid, {
+				start,
+				limit,
+				sortBy,
+				order,
+			});
+
+			const userCount = leaderboard.totalUsers || 0;
+			const pageCount = Math.max(1, Math.ceil(userCount / limit));
+			if (page > pageCount) {
+				page = pageCount;
+				start = (page - 1) * limit;
+				leaderboard = await categories.getUserLeaderboard(cid, {
+					start,
+					limit,
+					sortBy,
+					order,
+				});
+			}
+		}
+	}
+
+	const totalUsers = leaderboard.totalUsers || 0;
+	const pageCount = cid && category ? Math.max(1, Math.ceil(totalUsers / limit)) : 1;
+
+	const baseQuery = {
+		sortBy,
+		order,
+		limit,
+	};
+	if (cid) {
+		baseQuery.cid = cid;
+	}
+
+	const paginationData = pagination.create(page, pageCount, baseQuery);
+
+	const normalizedSelectedCids = Number.isInteger(cid) ? [cid] : [];
+
+	res.render('admin/manage/leaderboard', {
+		cid,
+		page,
+		sortBy,
+		order,
+		limit,
+		leaderboard,
+		pagination: paginationData,
+		categoryName: category ? category.name : null,
+		hasCategorySelected: Boolean(category),
+		categoryMissing: Boolean(cid && !category),
+		selectedCategory: selectedData.selectedCategory,
+		selectedCids: normalizedSelectedCids,
+		sortFields: allowedSorts,
+		limitOptions: allowedLimits,
+		state: {
+			cid,
+			sortBy,
+			order,
+			limit,
+			page,
+		},
+	});
+};
+
 categoriesController.getLeaderboard = async function (req, res) {
 	const cid = req.params.category_id;
 	
