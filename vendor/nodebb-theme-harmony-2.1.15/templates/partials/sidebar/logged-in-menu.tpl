@@ -21,3 +21,12 @@
 <li component="sidebar/drafts" class="nav-item mx-2 drafts dropstart" title="[[global:header.drafts]]" role="menuitem">
 <!-- IMPORT partials/sidebar/drafts.tpl -->
 </li>
+
+{{{ if user.isAdmin }}}
+<li class="nav-item mx-2" role="menuitem">
+	<a class="nav-link d-flex gap-2 align-items-center" href="{relative_path}/admin/manage/leaderboard" title="[[admin/menu:manage/leaderboard]]">
+		<i class="fa fa-trophy"></i>
+		<span class="nav-text small visible-open fw-semibold">[[admin/menu:manage/leaderboard]]</span>
+	</a>
+</li>
+{{{ end }}}

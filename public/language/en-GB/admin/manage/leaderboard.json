@@ -1,0 +1,15 @@
+{
+	"title": "Category Leaderboard",
+	"description": "Review top contributors per category.",
+	"selected-category": "Showing results for \"%1\"",
+	"total-users": "%1 total contributors",
+	"no-category-selected": "Choose a category to display leaderboard data.",
+	"category-missing": "That category could not be found. Pick another category and try again.",
+	"no-results": "No user activity recorded in this category yet.",
+	"button.reset": "Clear selection",
+	"table.rank": "Rank",
+	"table.user": "User",
+	"table.comments": "Comments",
+	"table.topics": "Topics",
+	"table.total": "Total"
+}

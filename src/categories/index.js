@@ -24,6 +24,7 @@ require('./recentreplies')(Categories);
 require('./update')(Categories);
 require('./watch')(Categories);
 require('./search')(Categories);
+require('./leaderboard')(Categories);
 
 Categories.icons = require('./icon');
 
