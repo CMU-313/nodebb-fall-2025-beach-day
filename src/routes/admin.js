@@ -18,7 +18,6 @@ module.exports = function (app, name, middleware, controllers) {
 	helpers.setupAdminPageRoute(app, `/${name}/manage/categories/:category_id`, middlewares, controllers.admin.categories.get);
 	helpers.setupAdminPageRoute(app, `/${name}/manage/categories/:category_id/analytics`, middlewares, controllers.admin.categories.getAnalytics);
 	helpers.setupAdminPageRoute(app, `/${name}/manage/categories/:category_id/federation`, middlewares, controllers.admin.categories.getFederation);
-	helpers.setupAdminPageRoute(app, `/${name}/manage/categories/:category_id/leaderboard`, middlewares, controllers.admin.categories.getLeaderboard);
 
 	helpers.setupAdminPageRoute(app, `/${name}/manage/privileges/:cid?`, middlewares, controllers.admin.privileges.get);
 	helpers.setupAdminPageRoute(app, `/${name}/manage/tags`, middlewares, controllers.admin.tags.get);
