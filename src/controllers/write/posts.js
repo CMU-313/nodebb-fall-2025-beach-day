@@ -153,12 +153,22 @@ Posts.getAnnouncersTooltip = async (req, res) => {
 
 Posts.bookmark = async (req, res) => {
 	const data = await mock(req);
+	// Start of Change 1/2: forward optional category from request body to api layer
+	if (req.body && typeof req.body.category === 'string') {
+		data.category = req.body.category;
+	}
+	//End of Change 1/2: forward optional category from request body to api layer
 	await api.posts.bookmark(req, data);
 	helpers.formatApiResponse(200, res);
 };
 
 Posts.unbookmark = async (req, res) => {
 	const data = await mock(req);
+	//Start of Change 2/2: forward optional category from request body to api layer
+	if (req.body && typeof req.body.category === 'string') {
+		data.category = req.body.category;
+	}
+	//End of Change 2/2: forward optional category from request body to api layer
 	await api.posts.unbookmark(req, data);
 	helpers.formatApiResponse(200, res);
 };
