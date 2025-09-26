@@ -12,7 +12,7 @@ define('forum/topic/postTools', [
 	'alerts',
 	'hooks',
 	'helpers',
-	'forum/topic/endorse'
+	'forum/topic/endorse',
 ], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers, Endorse) {
 	const PostTools = {};
 
