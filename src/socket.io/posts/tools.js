@@ -51,6 +51,7 @@ module.exports = function (SocketPosts) {
 		postData.display_ip_ban = (results.isAdmin || results.isGlobalMod) && !postData.selfPost;
 		postData.display_history = results.history && results.canViewHistory;
 		postData.display_original_url = !utils.isNumber(data.pid);
+		postData.display_endorse = results.isAdmin || results.isModerator;
 		postData.flags = {
 			flagId: parseInt(results.posts.flagId, 10) || null,
 			can: results.canFlag.flag,
@@ -58,6 +59,14 @@ module.exports = function (SocketPosts) {
 			flagged: results.flagged,
 			state: await db.getObjectField(`flag:${postData.flagId}`, 'state'),
 		};
+
+		console.log('[ENDORSE DEBUG]', {
+			uid: socket.uid,
+			pid: data.pid,
+			isAdmin: results.isAdmin,
+			isModerator: results.isModerator,
+			display_endorse: postData.display_endorse,
+		});
 
 		if (!results.isAdmin && !results.canViewInfo) {
 			postData.ip = undefined;

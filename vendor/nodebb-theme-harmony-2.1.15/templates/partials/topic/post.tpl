@@ -127,10 +127,12 @@
 						<a href="#" class="px-2 mx-1 btn btn-ghost btn-sm" component="post/vote-count" data-votes="{posts.votes}" title="[[global:voters]]">{posts.votes}</a>
 
 						{{{ if !downvote:disabled }}}
-						<a component="post/downvote" href="#" class="btn btn-ghost btn-sm{{{ if posts.downvoted }}} downvoted{{{ end }}}" title="[[topic:downvote-post]]">
+						<a component="post/" href="#" class="btn btn-ghost btn-sm{{{ if posts.downvoted }}} downvoted{{{ end }}}" title="[[topic:downvote-post]]">
 							<i class="fa fa-fw fa-chevron-down text-primary"></i>
 						</a>
+						{{{ end }}}
 
+						{{{ if posts.display_endorse }}}
 						<a component="post/endorse" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
 							{{{ if posts.endorsed }}}
 							<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
@@ -141,7 +143,6 @@
 						{{{ end }}}
 					</div>
 					{{{ end }}}
-
 					<!-- IMPORT partials/topic/post-menu.tpl -->
 				</div>
 			</div>
