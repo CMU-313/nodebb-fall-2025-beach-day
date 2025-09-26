@@ -31,12 +31,8 @@ module.exports = function () {
 
 	setupApiRoute(router, 'put', '/:pid/move', [...middlewares, middleware.checkRequired.bind(null, ['tid'])], controllers.write.posts.move);
 
-	console.log('Posts router loaded');
-	setupApiRoute(router, 'put', '/:pid/endorse', middlewares, (req, res) => {
-		console.log('ENDORSE ROUTE HIT', req.params.pid);
-		res.json({ code: 200 });
-	});
-setupApiRoute(router, 'delete', '/:pid/endorse', middlewares, controllers.write.posts.unendorse);
+	setupApiRoute(router, 'put', '/:pid/endorse', [middleware.assert.post], controllers.write.posts.endorse);
+	setupApiRoute(router, 'delete', '/:pid/endorse', [middleware.assert.post], controllers.write.posts.unendorse);
 	setupApiRoute(router, 'get', '/:pid/endorse', [middleware.assert.post], controllers.write.posts.getEndorseStatus);
 	
 	setupApiRoute(router, 'put', '/:pid/vote', [...middlewares, middleware.checkRequired.bind(null, ['delta'])], controllers.write.posts.vote);

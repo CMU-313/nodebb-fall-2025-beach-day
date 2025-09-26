@@ -12,7 +12,8 @@ define('forum/topic/postTools', [
 	'alerts',
 	'hooks',
 	'helpers',
-], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers) {
+	'forum/topic/endorse'
+], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers, Endorse) {
 	const PostTools = {};
 
 	let staleReplyAnyway = false;
@@ -133,36 +134,8 @@ define('forum/topic/postTools', [
 			return votes.toggleVote($(this), '.upvoted', 1);
 		});
 
-		postContainer.on('click', '[component="post/endorse"], [component="post/endorse"]', async function (e) {
-			e.preventDefault();
-
-			const $btn = $(this);
-			const $post = $btn.closest('[data-pid]');
-			const pid = $post.data('pid');
-			const endorsed = $btn.hasClass('endorsed');
-			const url = `/api/v3/posts/${pid}/endorse`;
-			const method = endorsed ? 'DELETE' : 'PUT';
-
-			try {
-				const res = await fetch(url, { method });
-				const data = await res.json();
-
-				if (data.code === 200 || data.success) {
-					$btn.toggleClass('endorsed');
-
-					const $icon = $btn.find('i.fa-thumbs-up');
-					if ($btn.hasClass('endorsed')) {
-						$icon.removeClass('text-muted').addClass('text-success');
-						$post.addClass('has-endorsed');
-					} else {
-						$icon.removeClass('text-success').addClass('text-muted');
-						$post.removeClass('has-endorsed');
-					}
-				}
-			} catch (err) {
-				console.error('Endorse API error:', err);
-				alerts.error('Failed to endorse post.');
-			}
+		postContainer.on('click', '[component="post/endorse"]', function () {
+			return Endorse.toggleEndorse($(this), '.endorsed');
 		});
 
 

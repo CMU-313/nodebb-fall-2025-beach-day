@@ -111,36 +111,28 @@ async function mock(req) {
 	const tid = await posts.getPostField(req.params.pid, 'tid');
 	return { pid: req.params.pid, room_id: `topic_${tid}` };
 }
-
 Posts.endorse = async (req, res) => {
-    const pid = parseInt(req.params.pid, 10);
+    const pid = req.params.pid;
+    const uid = req.uid;
 
-    await db.setObjectField(`post:${pid}`, 'endorsed', true);
-
-    // Log the updated post object
-    const post = await db.getObject(`post:${pid}`);
-    console.log(`Post ${pid} endorsed:`, post.endorsed);
-
-    res.json({ code: 200, endorsed: true });
+    await posts.endorse(pid, uid);   // you’ll define this in src/posts/endorse.js
+    helpers.formatApiResponse(200, res, { endorsed: true });
 };
 
 Posts.unendorse = async (req, res) => {
-    const pid = parseInt(req.params.pid, 10);
+    const pid = req.params.pid;
+    const uid = req.uid;
 
-    await db.setObjectField(`post:${pid}`, 'endorsed', false);
-
-    const post = await db.getObject(`post:${pid}`);
-    console.log(`Post ${pid} endorsed:`, post.endorsed);
-
-    res.json({ code: 200, endorsed: false });
+    await posts.unendorse(pid, uid);
+    helpers.formatApiResponse(200, res, { endorsed: false });
 };
 
-Posts.getEndorseStatus = async function(pid) {
-    const post = await db.getObject(`post:${pid}`);
-    if (!post) return false;
+Posts.getEndorseStatus = async (req, res) => {
+    const pid = req.params.pid;
+    const uid = req.uid;
 
-    // Assuming you store endorsement as boolean in post data
-    return post.endorsed === true;
+    const endorsed = await posts.hasEndorsed(pid, uid);
+    helpers.formatApiResponse(200, res, { endorsed });
 };
 
 Posts.vote = async (req, res) => {
