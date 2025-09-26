@@ -22,6 +22,12 @@
 			{{{ end }}}
 		</a>
 	</div>
+	{{{ if posts.endorsed }}}
+		<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
+	{{{ else }}}
+		<i class="fa fa-fw fa-thumbs-up text-muted" aria-hidden="true"></i>
+	{{{ end }}}
+
 	<div class="post-container d-flex gap-2 flex-grow-1 flex-column w-100" style="min-width:0;">
 		<div class="d-flex align-items-start justify-content-between gap-1 flex-nowrap w-100 post-header" itemprop="author" itemscope itemtype="https://schema.org/Person">
 			<div class="d-flex gap-1 flex-wrap align-items-center text-truncate">
@@ -127,11 +133,14 @@
 						<a href="#" class="px-2 mx-1 btn btn-ghost btn-sm" component="post/vote-count" data-votes="{posts.votes}" title="[[global:voters]]">{posts.votes}</a>
 
 						{{{ if !downvote:disabled }}}
-						<a component="post/downvote" href="#" class="btn btn-ghost btn-sm{{{ if posts.downvoted }}} downvoted{{{ end }}}" title="[[topic:downvote-post]]">
+						<a component="post/" href="#" class="btn btn-ghost btn-sm{{{ if posts.downvoted }}} downvoted{{{ end }}}" title="[[topic:downvote-post]]">
 							<i class="fa fa-fw fa-chevron-down text-primary"></i>
 						</a>
+						{{{ end }}}
 
-						<a component="post/endrose" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
+						
+						{{{ if posts.display_endorse }}}
+						<a component="post/endorse" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
 							{{{ if posts.endorsed }}}
 							<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
 							{{{ else }}}
@@ -141,7 +150,6 @@
 						{{{ end }}}
 					</div>
 					{{{ end }}}
-
 					<!-- IMPORT partials/topic/post-menu.tpl -->
 				</div>
 			</div>

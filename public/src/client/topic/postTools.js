@@ -12,7 +12,8 @@ define('forum/topic/postTools', [
 	'alerts',
 	'hooks',
 	'helpers',
-], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers) {
+	'forum/topic/endorse',
+], function (share, navigator, components, translator, votes, api, bootbox, alerts, hooks, helpers, Endorse) {
 	const PostTools = {};
 
 	let staleReplyAnyway = false;
@@ -54,6 +55,7 @@ define('forum/topic/postTools', [
 			const index = parseInt(postEl.attr('data-index'), 10);
 
 			socket.emit('posts.loadPostTools', { pid: pid }, async (err, data) => {
+				console.log('[POST TOOLS]', { err, data });
 				if (err) {
 					return alerts.error(err);
 				}
@@ -133,11 +135,10 @@ define('forum/topic/postTools', [
 			return votes.toggleVote($(this), '.upvoted', 1);
 		});
 
-		postContainer.on('click', '[component="post/endorse"], [component="post/endrose"]', function (e) {
-			e.preventDefault();
-			console.log('The endorse button is under development. Please use upvote instead.');
-			alerts.info('The endorse button is under development. Please use upvote instead.');
+		postContainer.on('click', '[component="post/endorse"]', function () {
+			return Endorse.toggleEndorse($(this), '.endorsed');
 		});
+
 
 		postContainer.on('click', '[component="post/downvote"]', function () {
 			return votes.toggleVote($(this), '.downvoted', -1);
