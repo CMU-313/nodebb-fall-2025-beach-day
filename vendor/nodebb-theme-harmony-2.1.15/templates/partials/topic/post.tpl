@@ -22,11 +22,6 @@
 			{{{ end }}}
 		</a>
 	</div>
-	{{{ if posts.endorsed }}}
-		<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
-	{{{ else }}}
-		<i class="fa fa-fw fa-thumbs-up text-muted" aria-hidden="true"></i>
-	{{{ end }}}
 
 	<div class="post-container d-flex gap-2 flex-grow-1 flex-column w-100" style="min-width:0;">
 		<div class="d-flex align-items-start justify-content-between gap-1 flex-nowrap w-100 post-header" itemprop="author" itemscope itemtype="https://schema.org/Person">

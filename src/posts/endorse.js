@@ -25,11 +25,28 @@ module.exports = function (Posts) {
 		await db.sortedSetRemove(`post:${pid}:endorsements`, uid);
 	};
 
+	// Check whether the post has any endorsements
 	Posts.isEndorsed = async function (pid) {
-		// Fetch the endorsed member list for this pid
-		const endorsedUids = await db.getSetMembers(`pid:${pid}:endorsed:uids`);
+		const count = await db.sortedSetCard(`post:${pid}:endorsements`);
+		return !!count;
+	};
 
-		// Return boolean: true if at least one uid has endorsed
-		return endorsedUids.length > 0;
+	// Backwards-compatible: check whether the (current) user has endorsed the post.
+	// For this app we don't track per-user endorsement as required by the UI; we
+	// only need to know whether any admin/mod has endorsed a post. Implement this
+	// function to return the post-level endorsed boolean so existing controller
+	// code (which passes uid) keeps working.
+	Posts.hasEndorsed = async function (pid /*, uid */) {
+		return Posts.isEndorsed(pid);
+	};
+
+	// Batch helper: given an array of pids, return an array of booleans indicating
+	// whether each post has any endorsements.
+	Posts.hasAnyEndorsements = async function (pids) {
+		if (!Array.isArray(pids)) {
+			pids = [pids];
+		}
+		const results = await Promise.all(pids.map(pid => Posts.isEndorsed(pid).catch(() => false)));
+		return results;
 	};
 };
