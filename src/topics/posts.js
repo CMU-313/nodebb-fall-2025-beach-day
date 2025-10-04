@@ -183,7 +183,6 @@ module.exports = function (Topics) {
 					(post.selfPost && post.deleted && parseInt(post.deleterUid, 10) === parseInt(topicPrivileges.uid, 10)) ||
 					((loggedIn || topicData.postSharing.length) && !post.deleted);
 				post.ip = topicPrivileges.isAdminOrMod ? post.ip : undefined;
-				post.display_endorse = topicPrivileges.isAdminOrMod;
 				
 				posts.modifyPostByPrivilege(post, topicPrivileges);
 			}

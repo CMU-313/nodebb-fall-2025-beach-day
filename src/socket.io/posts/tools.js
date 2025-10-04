@@ -51,13 +51,7 @@ module.exports = function (SocketPosts) {
 		postData.display_ip_ban = (results.isAdmin || results.isGlobalMod) && !postData.selfPost;
 		postData.display_history = results.history && results.canViewHistory;
 		postData.display_original_url = !utils.isNumber(data.pid);
-		postData.display_endorse = results.isAdmin || results.isModerator;
-		// Whether this post has any admin/mod endorsements — expose to client
-		try {
-			postData.endorsed = await posts.isEndorsed(data.pid);
-		} catch (e) {
-			postData.endorsed = false;
-		}
+
 		postData.flags = {
 			flagId: parseInt(results.posts.flagId, 10) || null,
 			can: results.canFlag.flag,

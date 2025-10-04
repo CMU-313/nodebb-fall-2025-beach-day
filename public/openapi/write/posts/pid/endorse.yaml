@@ -84,7 +84,3 @@ get:
                 properties:
                   endorsed:
                     type: boolean
-                  endorsers:
-                    type: array
-                    items:
-                      type: number

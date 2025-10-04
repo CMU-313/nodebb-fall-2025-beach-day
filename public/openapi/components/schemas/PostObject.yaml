@@ -180,6 +180,8 @@ PostDataObject:
           type: number
         downvotes:
           type: number
+        endorsed:
+          type: boolean
         announces:
           type: number
         bookmarks:
@@ -366,8 +368,6 @@ PostDataObject:
         display_moderator_tools:
           type: boolean
         display_move_tools:
-          type: boolean
-        display_endorse:
           type: boolean
         display_post_menu:
           type: boolean

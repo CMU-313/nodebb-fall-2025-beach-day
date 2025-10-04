@@ -134,15 +134,13 @@
 						{{{ end }}}
 
 						
-						{{{ if posts.display_endorse }}}
-						<a component="post/endorse" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
-							{{{ if posts.endorsed }}}
-							<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
-							{{{ else }}}
-							<i class="fa fa-fw fa-thumbs-up text-muted" aria-hidden="true"></i>
-							{{{ end }}}
-						</a>
+					<a component="post/endorse" href="#" class="btn btn-ghost btn-sm{{{ if posts.endorsed }}} endorsed{{{ end }}}" title="Endorse Post" aria-label="[[topic:endorse-post]]">
+						{{{ if posts.endorsed }}}
+						<i class="fa fa-fw fa-thumbs-up text-success" aria-hidden="true"></i>
+						{{{ else }}}
+						<i class="fa fa-fw fa-thumbs-up text-muted" aria-hidden="true"></i>
 						{{{ end }}}
+					</a>
 					</div>
 					{{{ end }}}
 					<!-- IMPORT partials/topic/post-menu.tpl -->
