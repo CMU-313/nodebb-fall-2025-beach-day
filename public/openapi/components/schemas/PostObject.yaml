@@ -367,6 +367,8 @@ PostDataObject:
           type: boolean
         display_move_tools:
           type: boolean
+        display_endorse:
+          type: boolean
         display_post_menu:
           type: boolean
         flagId:
