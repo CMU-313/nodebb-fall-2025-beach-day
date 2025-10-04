@@ -60,14 +60,6 @@ module.exports = function (SocketPosts) {
 			state: await db.getObjectField(`flag:${postData.flagId}`, 'state'),
 		};
 
-		console.log('[ENDORSE DEBUG]', {
-			uid: socket.uid,
-			pid: data.pid,
-			isAdmin: results.isAdmin,
-			isModerator: results.isModerator,
-			display_endorse: postData.display_endorse,
-		});
-
 		if (!results.isAdmin && !results.canViewInfo) {
 			postData.ip = undefined;
 		}

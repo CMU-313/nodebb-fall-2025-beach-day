@@ -9,11 +9,6 @@ const { setupApiRoute } = routeHelpers;
 
 module.exports = function () {
 
-	setupApiRoute(router, 'get', '/test', (req, res) => {
-		console.log('Test route hit!');
-		res.json({ ok: true });
-	});
-
 
 	const middlewares = [middleware.ensureLoggedIn, middleware.assert.post];
 
