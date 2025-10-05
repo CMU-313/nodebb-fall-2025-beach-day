@@ -121,5 +121,18 @@ describe('Leaderboard', () => {
             assert(page2.rows.length === 1, 'Page 2 should have 1 result');
             assert(page1.rows[0].uid !== page2.rows[0].uid, 'Pages should show different users');
         });
+        
+        it('should handle empty categories gracefully', async () => {
+            const emptyCategory = await categories.create({
+                name: 'Empty Category',
+                description: 'No posts here'
+            });
+            
+            const result = await categories.getUserLeaderboard(emptyCategory.cid, {});
+            
+            assert.equal(result.rows.length, 0, 'Should have no users');
+            assert.equal(result.totalUsers, 0, 'Should count 0 total users');
+            assert.equal(result.cid, emptyCategory.cid, 'Should return correct category ID');
+        });
     });
 });
