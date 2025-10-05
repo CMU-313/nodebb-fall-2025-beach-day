@@ -739,4 +739,32 @@ describe('Admin Controllers', () => {
 			assert.strictEqual(res.keys.groups.includes('admin:privileges'), false);
 		});
 	});
+
+	describe('Leaderboard Admin Pages', () => {
+		it('should load leaderboard page for admins', async () => {
+			const { response, body } = await request.get(`${nconf.get('url')}/admin/manage/leaderboard`, {
+				jar: jar,
+			});
+			assert.equal(response.statusCode, 200);
+			assert(body);
+		});
+
+		it('should return leaderboard data via API', async () => {
+			const { response, body } = await request.get(`${nconf.get('url')}/api/admin/manage/leaderboard?cid=${cid}`, {
+				jar: jar,
+				json: true,
+			});
+			assert.equal(response.statusCode, 200);
+			assert(body.leaderboard);
+			assert(Array.isArray(body.leaderboard.rows));
+		});
+
+		it('should deny access to non-admins', async () => {
+			const { jar: regularJar } = await helpers.loginUser('regular', 'regularpwd');
+			const { response } = await request.get(`${nconf.get('url')}/admin/manage/leaderboard`, {
+				jar: regularJar,
+			});
+			assert(response.statusCode === 403 || response.statusCode === 404);
+		});
+	});
 });
