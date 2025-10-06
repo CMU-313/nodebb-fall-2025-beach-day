@@ -60,7 +60,7 @@ get:
   tags:
     - posts
   summary: get endorsement status for a post
-  description: Returns whether the current user has endorsed the post.
+  description: Returns whether the post has been endorsed by any moderator or admin.
   parameters:
     - in: path
       name: pid
