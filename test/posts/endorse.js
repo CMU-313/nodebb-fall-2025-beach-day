@@ -59,7 +59,7 @@ describe('Post endorsements', () => {
 		assert.ok(endorsers.includes(String(modUid)) || endorsers.includes(modUid));
 	});
 
-	it('should only allow admin to unendorse', async () => {
+	it('should allow a moderator to unendorse', async () => {
 		// non-admin attempt to unendorse should fail
 		let threw = false;
 		try {
@@ -70,13 +70,7 @@ describe('Post endorsements', () => {
 		}
 		assert.strictEqual(threw, true);
 
-		// create an admin and remove the moderator's endorsement
-		const adminUid = await user.create({ username: 'adminuser' });
-		const Groups = require('../../src/groups');
-		// Add to Administrators
-		await Groups.join('Administrators', adminUid);
-
-		// admin can unendorse the moderator's endorsement
+		// moderator can unendorse the moderator's endorsement
 		await posts.unendorse(pid, modUid);
 		const endorsers = await db.getSortedSetRevRange(`post:${pid}:endorsements`, 0, -1);
 		assert.ok(Array.isArray(endorsers));
