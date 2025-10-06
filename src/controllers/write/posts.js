@@ -111,6 +111,29 @@ async function mock(req) {
 	const tid = await posts.getPostField(req.params.pid, 'tid');
 	return { pid: req.params.pid, room_id: `topic_${tid}` };
 }
+Posts.endorse = async (req, res) => {
+	const {pid} = req.params;
+	const {uid} = req;
+
+	await posts.endorse(pid, uid); // you’ll define this in src/posts/endorse.js
+	helpers.formatApiResponse(200, res, { endorsed: true });
+};
+
+Posts.unendorse = async (req, res) => {
+	const {pid} = req.params;
+	const {uid} = req;
+
+	await posts.unendorse(pid, uid);
+	helpers.formatApiResponse(200, res, { endorsed: false });
+};
+
+Posts.getEndorseStatus = async (req, res) => {
+	const {pid} = req.params;
+	const {uid} = req;
+
+	const endorsed = await posts.hasEndorsed(pid, uid);
+	helpers.formatApiResponse(200, res, { endorsed });
+};
 
 Posts.vote = async (req, res) => {
 	const data = await mock(req);

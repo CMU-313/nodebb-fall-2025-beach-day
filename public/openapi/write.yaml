@@ -50,6 +50,8 @@ tags:
   - name: files
     description: File upload routes
 paths:
+  /posts/{pid}/endorse:
+    $ref: ./write/posts/pid/endorse.yaml
   /ping:
     $ref: 'write/ping.yaml'
   /utilities/login:

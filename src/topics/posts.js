@@ -133,6 +133,14 @@ module.exports = function (Topics) {
 			Topics.addParentPosts(postData, uid),
 		]);
 
+		// Determine endorsement presence for each post so templates can render correctly
+		let endorsementFlags = [];
+		try {
+			endorsementFlags = await Promise.all(pids.map(pid => posts.isEndorsed(pid)));
+		} catch (e) {
+			endorsementFlags = pids.map(() => false);
+		}
+
 		postData.forEach((postObj, i) => {
 			if (postObj) {
 				postObj.user = postObj.uid ? userData[postObj.uid] : { ...userData[postObj.uid] };
@@ -142,6 +150,8 @@ module.exports = function (Topics) {
 				postObj.downvoted = voteData.downvotes[i];
 				postObj.votes = postObj.votes || 0;
 				postObj.replies = replies[i];
+				// Whether this post has any admin/mod endorsements
+				postObj.endorsed = !!endorsementFlags[i];
 				postObj.selfPost = parseInt(uid, 10) > 0 && parseInt(uid, 10) === postObj.uid;
 
 				// Username override for guests, if enabled
@@ -173,7 +183,7 @@ module.exports = function (Topics) {
 					(post.selfPost && post.deleted && parseInt(post.deleterUid, 10) === parseInt(topicPrivileges.uid, 10)) ||
 					((loggedIn || topicData.postSharing.length) && !post.deleted);
 				post.ip = topicPrivileges.isAdminOrMod ? post.ip : undefined;
-
+				
 				posts.modifyPostByPrivilege(post, topicPrivileges);
 			}
 		});

@@ -1,0 +1,86 @@
+put:
+  tags:
+    - posts
+  summary: endorse a post
+  description: This operation endorses a post. Only moderators/admins are permitted to endorse.
+  parameters:
+    - in: path
+      name: pid
+      schema:
+        type: string
+      required: true
+      description: a valid post id
+      example: 1
+  responses:
+    '200':
+      description: Post successfully endorsed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: ../../../components/schemas/Status.yaml#/Status
+              response:
+                type: object
+                properties:
+                  endorsed:
+                    type: boolean
+
+delete:
+  tags:
+    - posts
+  summary: unendorse a post
+  description: This operation removes an endorsement from a post. Only moderators/admins are permitted to unendorse.
+  parameters:
+    - in: path
+      name: pid
+      schema:
+        type: string
+      required: true
+      description: a valid post id
+      example: 1
+  responses:
+    '200':
+      description: Post successfully unendorsed
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: ../../../components/schemas/Status.yaml#/Status
+              response:
+                type: object
+                properties:
+                  endorsed:
+                    type: boolean
+
+get:
+  tags:
+    - posts
+  summary: get endorsement status for a post
+  description: Returns whether the post has been endorsed by any moderator or admin.
+  parameters:
+    - in: path
+      name: pid
+      schema:
+        type: string
+      required: true
+      description: a valid post id
+      example: 1
+  responses:
+    '200':
+      description: Endorse status
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              status:
+                $ref: ../../../components/schemas/Status.yaml#/Status
+              response:
+                type: object
+                properties:
+                  endorsed:
+                    type: boolean
