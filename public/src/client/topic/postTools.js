@@ -55,7 +55,6 @@ define('forum/topic/postTools', [
 			const index = parseInt(postEl.attr('data-index'), 10);
 
 			socket.emit('posts.loadPostTools', { pid: pid }, async (err, data) => {
-				console.log('[POST TOOLS]', { err, data });
 				if (err) {
 					return alerts.error(err);
 				}
