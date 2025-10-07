@@ -17,6 +17,10 @@ require('./sockets');
 require('./overrides');
 require('./ajaxify');
 
+require(['forum/composer-select-format'], function (selectFormat) {
+	selectFormat.init();
+});
+
 app = window.app || {};
 
 Object.defineProperty(app, 'isFocused', {
