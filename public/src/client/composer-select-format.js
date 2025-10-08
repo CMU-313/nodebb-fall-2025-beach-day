@@ -4,7 +4,7 @@ define('forum/composer-select-format', ['hooks'], function (hooks) {
 	const Dropdown = {
 		initialised: false,
 	};
-	//I think it will look something like this and templates can be added.
+	//Array of available post format templates. Add new templates to extend the dropdown options.
 	const templates = [
 		{
 			id: 'format1',
@@ -20,7 +20,7 @@ define('forum/composer-select-format', ['hooks'], function (hooks) {
 		},
 	];
 
-	//this will build the drop down similar to the headings in the navigation.
+	// This will build the dropdown similar to the headings in the navigation.
 	function buildDropdown(postContainer) {
 		const dropdown = $('<div>').addClass('btn-group btn-group-sm select-format-dropdown').attr('component', 'composer/select-format');
 
@@ -78,7 +78,7 @@ define('forum/composer-select-format', ['hooks'], function (hooks) {
 		});
 
 		return dropdown;
-	} // It will basically just insert the template text into where the cursor is so that we can use multiple.
+	}
 	function applyTemplate(postContainer, template) {
 		const textarea = postContainer.find('textarea');
 		if (!textarea.length) {
