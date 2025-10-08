@@ -130,9 +130,9 @@ describe('Leaderboard', () => {
 			
 			const result = await categories.getUserLeaderboard(emptyCategory.cid, {});
 			
-			assert.equal(result.rows.length, 0, 'Should have no users');
-			assert.equal(result.totalUsers, 0, 'Should count 0 total users');
-			assert.equal(result.cid, emptyCategory.cid, 'Should return correct category ID');
+			assert.strictEqual(result.rows.length, 0, 'Should have no users');
+			assert.strictEqual(result.totalUsers, 0, 'Should count 0 total users');
+			assert.strictEqual(result.cid, emptyCategory.cid, 'Should return correct category ID');
 		});
 	});
 });
