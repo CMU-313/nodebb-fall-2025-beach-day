@@ -4,10 +4,11 @@ const db = require('../database');
 const plugins = require('../plugins');
 
 module.exports = function (Posts) {
-	Posts.bookmark = async (pid, uid) => toggleBookmark(true, pid, uid);
-	Posts.unbookmark = async (pid, uid) => toggleBookmark(false, pid, uid);
+	// Support optional `category` parameter while remaining backward-compatible.
+	Posts.bookmark = async (pid, uid, category) => toggleBookmark(true, pid, uid, category);
+	Posts.unbookmark = async (pid, uid, category) => toggleBookmark(false, pid, uid, category);
 
-	async function toggleBookmark(type, pid, uid) {
+	async function toggleBookmark(type, pid, uid, category) {
 		if (parseInt(uid, 10) <= 0) {
 			throw new Error('[[error:not-logged-in]]');
 		}
@@ -27,10 +28,26 @@ module.exports = function (Posts) {
 			throw new Error('[[error:already-unbookmarked]]');
 		}
 
-		if (isBookmarking) {
-			await db.sortedSetAdd(`uid:${uid}:bookmarks`, Date.now(), pid);
+		// If a category was provided, maintain a category-specific sorted set
+		// for the user's bookmarks and track the user's categories. Categories
+		// are optional; if none provided we default to the legacy global set.
+		const cat = (typeof category === 'string' && category.trim()) ? category.trim() : null;
+
+		if (cat) {
+			const userCatSet = `uid:${uid}:bookmarks:${cat}`;
+			if (isBookmarking) {
+				await db.sortedSetAdd(userCatSet, Date.now(), pid);
+				await db.setAdd(`uid:${uid}:bookmark_categories`, cat);
+			} else {
+				await db.sortedSetRemove(userCatSet, pid);
+			}
 		} else {
-			await db.sortedSetRemove(`uid:${uid}:bookmarks`, pid);
+			// legacy global bookmarks set (kept for backward compatibility)
+			if (isBookmarking) {
+				await db.sortedSetAdd(`uid:${uid}:bookmarks`, Date.now(), pid);
+			} else {
+				await db.sortedSetRemove(`uid:${uid}:bookmarks`, pid);
+			}
 		}
 		await db[isBookmarking ? 'setAdd' : 'setRemove'](`pid:${pid}:users_bookmarked`, uid);
 		postData.bookmarks = await db.setCount(`pid:${pid}:users_bookmarked`);
