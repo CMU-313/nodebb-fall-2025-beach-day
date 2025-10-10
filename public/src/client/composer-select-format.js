@@ -276,7 +276,7 @@ define('forum/composer-select-format', ['hooks'], function (hooks) {
 				deleteButton.append($('<i>').addClass('fa fa-trash'));
 
 				item.append(link);
-				if (template.id.startsWith('exported-')) {
+				if (!defaultTemplates.find(t => t.id === template.id)) {
 					item.append(deleteButton);
 				}
 				menu.append(item);
