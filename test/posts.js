@@ -293,11 +293,40 @@ describe('Post\'s', () => {
 		});
 
 		it('should unbookmark a post', async () => {
-			
+			// Ensure the post is bookmarked so unbookmarking will succeed
+			await db.sortedSetAdd(`uid:${voterUid}:bookmarks`, Date.now(), postData.pid);
+			await db.setAdd(`pid:${postData.pid}:users_bookmarked`, voterUid);
 			const data = await apiPosts.unbookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}` });
 			assert.equal(data.isBookmarked, false);
 			const hasBookmarked = await posts.hasBookmarked([postData.pid], voterUid);
 			assert.equal(hasBookmarked[0], false);
+		});
+
+		it('should bookmark a post into a category', async () => {
+			const cat = 'recipes';
+			const data = await apiPosts.bookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}`, category: cat });
+			assert.equal(data.isBookmarked, true);
+
+			// per-user per-category sorted set should contain the pid
+			const setKey = `uid:${voterUid}:bookmarks:${cat}`;
+			const members = await db.getSortedSetMembers(setKey);
+			assert(members.map(m => parseInt(m, 10)).includes(postData.pid));
+
+			// categories tracking set should contain the category
+			const cats = await db.getSetMembers(`uid:${voterUid}:bookmark_categories`);
+			assert(cats.includes(cat));
+		});
+
+		it('should unbookmark a post from a category', async () => {
+			const cat = 'recipes';
+			const setKey = `uid:${voterUid}:bookmarks:${cat}`;
+			const membersBefore = await db.getSortedSetMembers(setKey);
+			if (!membersBefore.map(m => parseInt(m, 10)).includes(postData.pid)) {
+				await apiPosts.bookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}`, category: cat });
+			}
+			await apiPosts.unbookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}`, category: cat });
+			const members = await db.getSortedSetMembers(setKey);
+			assert(!members.map(m => parseInt(m, 10)).includes(postData.pid));
 		});
 	});
 
