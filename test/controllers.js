@@ -57,7 +57,46 @@ describe('Controllers', () => {
 		pid = result.postData.pid;
 	});
 
-	
+	describe('bookmark endpoints', () => {
+		it('should allow bookmarking a post via HTTP with category', async () => {
+			const { jar } = await helpers.loginUser('foo', 'barbar');
+			const token = await helpers.getCsrfToken(jar);
+			const cat = 'webrecipes';
+			const { response } = await request.put(`${nconf.get('url')}/api/v3/posts/${pid}/bookmark`, {
+				jar,
+				headers: { 'x-csrf-token': token },
+				body: { category: cat },
+			});
+			assert.equal(response.statusCode, 200);
+			const uid = fooUid;
+			const members = await db.getSortedSetMembers(`uid:${uid}:bookmarks:${cat}`);
+			assert(members.map(m => parseInt(m, 10)).includes(pid));
+		});
+
+		it('should allow unbookmarking a post via HTTP with category', async () => {
+			const { jar } = await helpers.loginUser('foo', 'barbar');
+			const token = await helpers.getCsrfToken(jar);
+			const cat = 'webrecipes';
+			// bookmark first
+			await request.put(`${nconf.get('url')}/api/v3/posts/${pid}/bookmark`, {
+				jar,
+				headers: { 'x-csrf-token': token },
+				body: { category: cat },
+			});
+			const uid = fooUid;
+			let members = await db.getSortedSetMembers(`uid:${uid}:bookmarks:${cat}`);
+			assert(members.map(m => parseInt(m, 10)).includes(pid));
+			// unbookmark
+			const { response } = await request.delete(`${nconf.get('url')}/api/v3/posts/${pid}/bookmark`, {
+				jar,
+				headers: { 'x-csrf-token': token },
+				body: { category: cat },
+			});
+			assert.equal(response.statusCode, 200);
+			members = await db.getSortedSetMembers(`uid:${uid}:bookmarks:${cat}`);
+			assert(!members.map(m => parseInt(m, 10)).includes(pid));
+		});
+	});
 
 	it('should load /config with csrf_token', async () => {
 		const { response, body } = await request.get(`${nconf.get('url')}/api/config`);
