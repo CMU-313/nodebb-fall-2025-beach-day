@@ -1,8 +1,8 @@
 'use strict';
 
 const db = require('../database');
-const user = require('../user');
-const privileges = require('../privileges');
+//const user = require('../user');
+//const privileges = require('../privileges');
 const utils = require('../utils');
 
 const userTemplatesAPI = module.exports;
