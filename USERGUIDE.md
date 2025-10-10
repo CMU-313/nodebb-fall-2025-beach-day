@@ -109,18 +109,18 @@ Create a new post or topic in that category with a test user
 Refresh the leaderboard and verify that the user count and ranking have been updated
 
 Automated Tests:
+test/leaderboard.js
+- Tests correct counts of leaderboard posts for multiple users
+- ensures category filters return the correct categories
+- ensures pagination displays information properly
+- Covers edge case of incorrect category number
 test/controllers-admin.js
-Tests correct counts of leaderboard posts for multiple users
-ensures category filters return the correct categories
-ensures pagination displays information properly
-Covers edge case of incorrect category number
-test/controllers-admin.js
-Checks that the leaderboard page loads for admins
-Checks it does not load for non-admins
-Checks that a call returns the leaderboard API data to the admin view
+- Checks that the leaderboard page loads for admins
+- Checks it does not load for non-admins
+- Checks that a call returns the leaderboard API data to the admin view
 Open API Schema - public/openapi/read.yaml & public/openapi/read/admin/manage/leaderboard.yaml
-Puts the API reference in the read openAPI file since it is a read only API
-Puts the full API Schema for leaderboard API documentation in its own file and ensures it passes OpenAPI specifications, consistent with existing Nodebb APIs
+- Puts the API reference in the read openAPI file since it is a read only API
+- Puts the full API Schema for leaderboard API documentation in its own file and ensures it passes OpenAPI specifications, consistent with existing Nodebb APIs
 Test Sufficiency:
 High Coverage: The Coveralls report shows that the overall coverage went up, no existing code lost coverage, and all of the feature’s code was covered
 Core Functionality: The tests focus on the most critical parts of the new feature: the data queries, the API endpoint, and authorization. This ensures the reliability and accuracy of the leaderboard's data and that the correct users only can see it.
