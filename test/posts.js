@@ -272,7 +272,6 @@ describe('Post\'s', () => {
 			const hasBookmarked = await posts.hasBookmarked(postData.pid, voterUid);
 			assert.equal(hasBookmarked, true);
 		});
-
 		it('should add pid to legacy user global bookmarks set when no category provided', async () => {
 			// ensure not present (clear both user-level set and pid-level membership)
 			await db.sortedSetRemove(`uid:${voterUid}:bookmarks`, postData.pid);
@@ -302,6 +301,7 @@ describe('Post\'s', () => {
 			const hasBookmarked = await posts.hasBookmarked([postData.pid], voterUid);
 			assert.equal(hasBookmarked[0], false);
 		});
+
 		it('should bookmark a post into a category', async () => {
 			const cat = 'recipes';
 			const data = await apiPosts.bookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}`, category: cat });
