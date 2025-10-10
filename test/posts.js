@@ -272,6 +272,25 @@ describe('Post\'s', () => {
 			const hasBookmarked = await posts.hasBookmarked(postData.pid, voterUid);
 			assert.equal(hasBookmarked, true);
 		});
+		it('should add pid to legacy user global bookmarks set when no category provided', async () => {
+			// ensure not present (clear both user-level set and pid-level membership)
+			await db.sortedSetRemove(`uid:${voterUid}:bookmarks`, postData.pid);
+			await db.setRemove(`pid:${postData.pid}:users_bookmarked`, voterUid);
+			// bookmark without category
+			await apiPosts.bookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}` });
+			const members = await db.getSortedSetMembers(`uid:${voterUid}:bookmarks`);
+			assert(members.map(m => parseInt(m, 10)).includes(postData.pid));
+		});
+
+		it('should remove pid from legacy user global bookmarks set when unbookmarking without category', async () => {
+			// ensure bookmarked (both legacy set and pid-level membership)
+			await db.sortedSetAdd(`uid:${voterUid}:bookmarks`, Date.now(), postData.pid);
+			await db.setAdd(`pid:${postData.pid}:users_bookmarked`, voterUid);
+			// unbookmark without category
+			await apiPosts.unbookmark({ uid: voterUid }, { pid: postData.pid, room_id: `topic_${postData.tid}` });
+			const members = await db.getSortedSetMembers(`uid:${voterUid}:bookmarks`);
+			assert(!members.map(m => parseInt(m, 10)).includes(postData.pid));
+		});
 
 		it('should unbookmark a post', async () => {
 			
