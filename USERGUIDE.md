@@ -131,6 +131,24 @@ Schema Validation: By testing the OpenAPI schema, we ensure that the API is well
 The default formats for posts feature allows students, professors and TA’s to save time structuring their topic responses. Now, the users have the ability to select the format they want from the dropdown menu and it will append to their text box.
 
 HOW TO: The user will select a category where they want to add a topic or click respond to someone’s message.
-In the dropdown menu “Format”, select which format you would like to import
-The format that was clicked on will import into the text box via after two new line characters (“\n\n”)
-The users can click on a new format to import multiple at the same time.
+- In the dropdown menu “Format”, select which format you would like to import
+- The format that was clicked on will import into the text box via after two new line characters (“\n\n”)
+- The users can click on a new format to import multiple at the same time.
+- To create a new custom format, you must:
+  - Write the text of the new format on the topic description
+  - Click the “Export Format” Button
+  - Select a name for the new format on the pop-up that shows up
+  - Finally, the new format is added to the database and is available for use
+- You can use a new custom format just like any other format (refer to default format utilization)
+- However, Custom formats can be deleted as well.
+- To delete a custom format:
+  - Open the format options dropdown, where you will find both default and custom formats
+  - Find the custom format you want to delete
+  - Press the red trash button to the right of the custom format
+  - NOTE: You cannot delete default formats
+- Even when you exit that topic or reload the page, the custom formats you have created should always be there after created. 
+- Once deleted, they should be deleted from the database and not show up anymore.
+
+TESTS: 
+	Tests have not yet been implemented for this feature (which is why it has not been merged to main yet).
+
