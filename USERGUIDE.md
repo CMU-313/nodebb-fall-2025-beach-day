@@ -8,7 +8,6 @@ This feature allows you to assign a post to a category, then organize and search
 
 How to Use New Feature
 
-This feature allows you to assign a post to a category, then organize and search by these categories.
 Log into an account, pick a post and click on the three dots on the bottom right. Then bookmark a post. Then go to the user profile and click bookmarks. There you can see you can set a category, see what other posts you have bookmarked and their categories, make a new category, and sort through the posts by their categories. 
 
 1. What do the tests do?
