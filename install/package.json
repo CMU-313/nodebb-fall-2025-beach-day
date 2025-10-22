@@ -11,7 +11,11 @@
     "main": "app.js",
     "scripts": {
         "start": "node loader.js",
-        "lint": "eslint --cache ./nodebb .",
+        "lint:eslint": "eslint --cache ./nodebb .",
+        "jshint:node": "jshint src --config .jshintrc.node --exclude-path .jshintignore",
+        "jshint:browser": "jshint public/src --config .jshintrc.browser --exclude-path .jshintignore",
+        "lint:jshint": "npm run jshint:node && npm run jshint:browser",
+        "lint": "npm run lint:eslint && npm run lint:jshint",
         "test": "nyc --reporter=html --reporter=text-summary mocha",
         "coverage": "nyc report --reporter=text-lcov > ./coverage/lcov.info",
         "coveralls": "nyc report --reporter=text-lcov | coveralls && rm -r coverage"

@@ -1,0 +1,24 @@
+{
+  "esversion": 11,
+  "browser": true,
+  "devel": true,
+  "undef": true,
+  "unused": true,
+  "latedef": "nofunc",
+  "eqeqeq": true,
+  "curly": true,
+  "globals": {
+    "define": true,
+    "require": true,
+    "app": true,
+    "ajaxify": true,
+    "socket": true,
+    "RELATIVE_PATH": true,
+    "config": true,
+    "utils": true,
+    "bootbox": true,
+    "translator": true,
+    "csrf": true,
+    "$": true
+  }
+}
