@@ -12,6 +12,8 @@
     "scripts": {
         "start": "node loader.js",
         "lint": "eslint --cache ./nodebb .",
+        "semgrep": "semgrep scan --config p/security-audit --config p/owasp-top-ten --config p/nodejs --config p/javascript",
+        "semgrep:json": "semgrep scan --config p/security-audit --config p/owasp-top-ten --config p/nodejs --config p/javascript --json -o semgrep-results.json",
         "test": "nyc --reporter=html --reporter=text-summary mocha",
         "coverage": "nyc report --reporter=text-lcov > ./coverage/lcov.info",
         "coveralls": "nyc report --reporter=text-lcov | coveralls && rm -r coverage"
