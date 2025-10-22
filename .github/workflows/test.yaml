@@ -80,7 +80,7 @@ jobs:
           node app --setup="${SETUP}" --ci="${CI}"
 
       - name: Run ESLint
-        run: npm run lint
+        run: npm run lint:eslint
 
       - name: Node tests
         run: npm test

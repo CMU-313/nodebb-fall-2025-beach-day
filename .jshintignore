@@ -1,0 +1,9 @@
+node_modules/
+coverage/
+build/
+dist/
+install/
+public/vendor/
+public/language/
+**/*.min.js
+

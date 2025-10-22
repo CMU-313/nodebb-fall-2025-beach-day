@@ -1,0 +1,10 @@
+{
+  "esversion": 11,
+  "node": true,
+  "mocha": true,
+  "undef": true,
+  "unused": true,
+  "latedef": "nofunc",
+  "eqeqeq": true,
+  "curly": true
+}
