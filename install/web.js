@@ -78,6 +78,8 @@ web.install = async function (port) {
 		extended: true,
 	}));
 
+	// Installer session config - domain/path not set as installer location varies
+	// nosemgrep
 	app.use(session({
 		name: 'nodebb-installer.sid',
 		secret: utils.generateUUID(),

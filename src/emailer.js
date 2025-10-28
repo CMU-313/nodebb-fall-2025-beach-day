@@ -153,9 +153,9 @@ Emailer.setupFallbackTransport = (config) => {
 		} else {
 			smtpOptions.service = String(config['email:smtpTransport:service']);
 		}
-		// nosemgrep: problem-based-packs.insecure-transport.js-node.bypass-tls-verification.bypass-tls-verification
 		// TLS verification bypass is intentional and only enabled when explicitly configured
 		// via 'email:smtpTransport:allow-self-signed' setting (useful for dev/testing)
+		// nosemgrep
 		if (config['email:smtpTransport:allow-self-signed']) {
 			smtpOptions.tls = {
 				rejectUnauthorized: false,

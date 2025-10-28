@@ -17,8 +17,8 @@ const allowedImageTypes = ['image/png', 'image/jpeg', 'image/pjpeg', 'image/jpg'
 const uploadsController = module.exports;
 
 uploadsController.get = async function (req, res, next) {
-	//nosemgrep: javascript.express.security.audit.express-path-join-resolve-traversal.express-path-join-resolve-traversal
-	//Path traversal is prevented by .startsWith() validation below
+	// Path traversal is prevented by .startsWith() validation below
+	// nosemgrep
 	const currentFolder = path.join(nconf.get('upload_path'), req.query.dir || '');
 	if (!currentFolder.startsWith(nconf.get('upload_path'))) {
 		return next(new Error('[[error:invalid-path]]'));

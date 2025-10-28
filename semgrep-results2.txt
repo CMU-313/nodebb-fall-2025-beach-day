@@ -2,89 +2,11 @@
 > nodebb@4.4.6 semgrep
 > semgrep scan --config p/security-audit --config p/owasp-top-ten --config p/nodejs --config p/javascript
 
-                    
-                    
-┌──────────────────┐
-│ 29 Code Findings │
-└──────────────────┘
-                                 
-  [36m[22m[24m  install/web.js[0m
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-default-name
-          Don’t use the default session cookie name Using the default session cookie name can open your app to
-          attacks. The security issue posed is similar to X-Powered-By: a potential attacker can use it to    
-          fingerprint the server and target attacks accordingly.                                              
-          Details: https://sg.run/1Z5x                                                                        
-                                                                                                              
-           81┆ app.use(session({
-           82┆    secret: utils.generateUUID(),
-           83┆    resave: false,
-           84┆    saveUninitialized: false,
-           85┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-domain
-          Default session middleware settings: `domain` not set. It indicates the domain of the cookie; use it
-          to compare against the domain of the server in which the URL is being requested. If they match, then
-          check the path attribute next.                                                                      
-          Details: https://sg.run/rd41                                                                        
-                                                                                                              
-           81┆ app.use(session({
-           82┆    secret: utils.generateUUID(),
-           83┆    resave: false,
-           84┆    saveUninitialized: false,
-           85┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-expires
-          Default session middleware settings: `expires` not set. Use it to set expiration date for persistent
-          cookies.                                                                                            
-          Details: https://sg.run/N4eG                                                                        
-                                                                                                              
-           81┆ app.use(session({
-           82┆    secret: utils.generateUUID(),
-           83┆    resave: false,
-           84┆    saveUninitialized: false,
-           85┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-httponly
-          Default session middleware settings: `httpOnly` not set. It ensures the cookie is sent only over
-          HTTP(S), not client JavaScript, helping to protect against cross-site scripting attacks.        
-          Details: https://sg.run/ydBO                                                                    
-                                                                                                          
-           81┆ app.use(session({
-           82┆    secret: utils.generateUUID(),
-           83┆    resave: false,
-           84┆    saveUninitialized: false,
-           85┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-path
-          Default session middleware settings: `path` not set. It indicates the path of the cookie; use it to
-          compare against the request path. If this and domain match, then send the cookie in the request.   
-          Details: https://sg.run/b7pd                                                                       
-                                                                                                             
-           81┆ app.use(session({
-           82┆    secret: utils.generateUUID(),
-           83┆    resave: false,
-           84┆    saveUninitialized: false,
-           85┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-secure
-          Default session middleware settings: `secure` not set. It ensures the browser only sends the cookie
-          over HTTPS.                                                                                        
-          Details: https://sg.run/9oKz                                                                       
-                                                                                                             
-           81┆ app.use(session({
-           82┆    secret: utils.generateUUID(),
-           83┆    resave: false,
-           84┆    saveUninitialized: false,
-           85┆ }));
-                                                
-  [36m[22m[24m  src/controllers/admin/info.js[0m
-   ❯❯❱ javascript.lang.security.detect-child-process.detect-child-process
-          Detected calls to child_process from a function argument `cmd`. This could lead to a command  
-          injection if the input is user controllable. Try to avoid calls to child_process, and if it is
-          needed ensure user input is correctly sanitized or sandboxed.                                 
-          Details: https://sg.run/l2lo                                                                  
-                                                                                                        
-          132┆ exec(cmd, (err, stdout) => {
+                   
+                   
+┌─────────────────┐
+│ 8 Code Findings │
+└─────────────────┘
                                                   
   [36m[22m[24m  src/controllers/admin/themes.js[0m
     ❯❱ javascript.express.security.audit.express-path-join-resolve-traversal.express-path-join-resolve-traversal
@@ -92,42 +14,9 @@
           intended destination                                                                        
           Details: https://sg.run/weRn                                                                
                                                                                                       
-           14┆ const themeDir = path.join(paths.nodeModules, req.params.theme);
+           33┆ path.join(themeDir, themeConfig.screenshot) :
             ⋮┆----------------------------------------
-           15┆ const themeConfigPath = path.join(themeDir, 'theme.json');
-            ⋮┆----------------------------------------
-           29┆ path.join(themeDir, themeConfig.screenshot) :
-            ⋮┆----------------------------------------
-           29┆ path.join(themeDir, themeConfig.screenshot) :
-   
-    ❯❱ javascript.express.security.audit.express-res-sendfile.express-res-sendfile
-          The application processes user-input, this is passed to res.sendFile which can allow an attacker to
-          arbitrarily read files on the system through path traversal. It is recommended to perform input    
-          validation in addition to canonicalizing the path. This allows you to validate the path against the
-          intended directory it should be accessing.                                                         
-          Details: https://sg.run/7DJk                                                                       
-                                                                                                             
-           36┆ res.sendFile(exists ? screenshotPath : defaultScreenshotPath);
-                                                   
-  [36m[22m[24m  src/controllers/admin/uploads.js[0m
-    ❯❱ javascript.express.security.audit.express-path-join-resolve-traversal.express-path-join-resolve-traversal
-          Possible writing outside of the destination, make sure that the target path is nested in the
-          intended destination                                                                        
-          Details: https://sg.run/weRn                                                                
-                                                                                                      
-           20┆ const currentFolder = path.join(nconf.get('upload_path'), req.query.dir || '');
-            ⋮┆----------------------------------------
-          231┆ if (!await file.exists(path.join(nconf.get('upload_path'), params.folder))) {
-                                                 
-  [36m[22m[24m  src/controllers/write/users.js[0m
-    ❯❱ javascript.express.security.audit.express-res-sendfile.express-res-sendfile
-          The application processes user-input, this is passed to res.sendFile which can allow an attacker to
-          arbitrarily read files on the system through path traversal. It is recommended to perform input    
-          validation in addition to canonicalizing the path. This allows you to validate the path against the
-          intended directory it should be accessing.                                                         
-          Details: https://sg.run/7DJk                                                                       
-                                                                                                             
-          222┆ res.sendFile(data.filename, {
+           33┆ path.join(themeDir, themeConfig.screenshot) :
                                  
   [36m[22m[24m  src/emailer.js[0m
     ❯❱ problem-based-packs.insecure-transport.js-node.bypass-tls-verification.bypass-tls-verification
@@ -137,106 +26,9 @@
           transport. These options lead to vulnerability to MTM attacks, and should not be used.              
           Details: https://sg.run/9oxr                                                                        
                                                                                                               
-          157┆ smtpOptions.tls = {
-          158┆    rejectUnauthorized: false,
-          159┆ };
-                                           
-  [36m[22m[24m  src/middleware/assert.js[0m
-    ❯❱ javascript.express.security.audit.express-path-join-resolve-traversal.express-path-join-resolve-traversal
-          Possible writing outside of the destination, make sure that the target path is nested in the
-          intended destination                                                                        
-          Details: https://sg.run/weRn                                                                
-                                                                                                      
-           95┆ const pathToFile = path.join(nconf.get('upload_path'), req.body.path);
-            ⋮┆----------------------------------------
-          112┆ const folderPath = path.join(res.locals.cleanedPath, folderName);
-                                   
-  [36m[22m[24m  src/webserver.js[0m
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-default-name
-          Don’t use the default session cookie name Using the default session cookie name can open your app to
-          attacks. The security issue posed is similar to X-Powered-By: a potential attacker can use it to    
-          fingerprint the server and target attacks accordingly.                                              
-          Details: https://sg.run/1Z5x                                                                        
-                                                                                                              
-          174┆ app.use(session({
-          175┆    store: db.sessionStore,
-          176┆    secret: nconf.get('secret'),
-          177┆    key: nconf.get('sessionKey'),
-          178┆    cookie: setupCookie(),
-          179┆    resave: nconf.get('sessionResave') || false,
-          180┆    saveUninitialized: nconf.get('sessionSaveUninitialized') || false,
-          181┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-domain
-          Default session middleware settings: `domain` not set. It indicates the domain of the cookie; use it
-          to compare against the domain of the server in which the URL is being requested. If they match, then
-          check the path attribute next.                                                                      
-          Details: https://sg.run/rd41                                                                        
-                                                                                                              
-          174┆ app.use(session({
-          175┆    store: db.sessionStore,
-          176┆    secret: nconf.get('secret'),
-          177┆    key: nconf.get('sessionKey'),
-          178┆    cookie: setupCookie(),
-          179┆    resave: nconf.get('sessionResave') || false,
-          180┆    saveUninitialized: nconf.get('sessionSaveUninitialized') || false,
-          181┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-expires
-          Default session middleware settings: `expires` not set. Use it to set expiration date for persistent
-          cookies.                                                                                            
-          Details: https://sg.run/N4eG                                                                        
-                                                                                                              
-          174┆ app.use(session({
-          175┆    store: db.sessionStore,
-          176┆    secret: nconf.get('secret'),
-          177┆    key: nconf.get('sessionKey'),
-          178┆    cookie: setupCookie(),
-          179┆    resave: nconf.get('sessionResave') || false,
-          180┆    saveUninitialized: nconf.get('sessionSaveUninitialized') || false,
-          181┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-httponly
-          Default session middleware settings: `httpOnly` not set. It ensures the cookie is sent only over
-          HTTP(S), not client JavaScript, helping to protect against cross-site scripting attacks.        
-          Details: https://sg.run/ydBO                                                                    
-                                                                                                          
-          174┆ app.use(session({
-          175┆    store: db.sessionStore,
-          176┆    secret: nconf.get('secret'),
-          177┆    key: nconf.get('sessionKey'),
-          178┆    cookie: setupCookie(),
-          179┆    resave: nconf.get('sessionResave') || false,
-          180┆    saveUninitialized: nconf.get('sessionSaveUninitialized') || false,
-          181┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-path
-          Default session middleware settings: `path` not set. It indicates the path of the cookie; use it to
-          compare against the request path. If this and domain match, then send the cookie in the request.   
-          Details: https://sg.run/b7pd                                                                       
-                                                                                                             
-          174┆ app.use(session({
-          175┆    store: db.sessionStore,
-          176┆    secret: nconf.get('secret'),
-          177┆    key: nconf.get('sessionKey'),
-          178┆    cookie: setupCookie(),
-          179┆    resave: nconf.get('sessionResave') || false,
-          180┆    saveUninitialized: nconf.get('sessionSaveUninitialized') || false,
-          181┆ }));
-   
-    ❯❱ javascript.express.security.audit.express-cookie-settings.express-cookie-session-no-secure
-          Default session middleware settings: `secure` not set. It ensures the browser only sends the cookie
-          over HTTPS.                                                                                        
-          Details: https://sg.run/9oKz                                                                       
-                                                                                                             
-          174┆ app.use(session({
-          175┆    store: db.sessionStore,
-          176┆    secret: nconf.get('secret'),
-          177┆    key: nconf.get('sessionKey'),
-          178┆    cookie: setupCookie(),
-          179┆    resave: nconf.get('sessionResave') || false,
-          180┆    saveUninitialized: nconf.get('sessionSaveUninitialized') || false,
-          181┆ }));
+          160┆ smtpOptions.tls = {
+          161┆    rejectUnauthorized: false,
+          162┆ };
                                          
   [36m[22m[24m  test/authentication.js[0m
     ❯❱ javascript.lang.security.audit.unknown-value-with-script-tag.unknown-value-with-script-tag

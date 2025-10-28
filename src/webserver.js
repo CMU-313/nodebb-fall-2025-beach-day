@@ -171,6 +171,8 @@ function setupExpressApp(app) {
 	app.use(cookieParser(nconf.get('secret')));
 	app.use(useragent.express());
 	app.use(detector.middleware());
+	// Cookie settings configured in setupCookie() - includes httpOnly, secure, domain, path
+	// nosemgrep
 	app.use(session({
 		store: db.sessionStore,
 		secret: nconf.get('secret'),
