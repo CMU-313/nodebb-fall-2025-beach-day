@@ -129,6 +129,8 @@ function humanReadableUptime(seconds) {
 
 async function getGitInfo() {
 	function get(cmd, callback) {
+		// nosemgrep: javascript.lang.security.detect-child-process.detect-child-process
+		// cmd is hardcoded to git commands only, no user input
 		exec(cmd, (err, stdout) => {
 			if (err) {
 				winston.error(err.stack);

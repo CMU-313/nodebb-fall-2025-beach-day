@@ -79,9 +79,15 @@ web.install = async function (port) {
 	}));
 
 	app.use(session({
+		name: 'nodebb-installer.sid',
 		secret: utils.generateUUID(),
 		resave: false,
 		saveUninitialized: false,
+		cookie: {
+			httpOnly: true,
+			secure: false, // Web installer may run on HTTP during setup
+			maxAge: 3600000, // 1 hour
+		},
 	}));
 
 	try {

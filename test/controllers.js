@@ -680,7 +680,7 @@ describe('Controllers', () => {
 				});
 
 				assert.strictEqual(response.statusCode, 302);
-				assert.strictEqual(response.headers['set-cookie'], `express.sid=; Path=${nconf.get('relative_path') || '/'}; Expires=Thu, 01 Jan 1970 00:00:00 GMT; SameSite=Lax`);
+				assert.strictEqual(response.headers['set-cookie'], `express.sid=; Path=${nconf.get('relative_path') || '/'}; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax`); //nosemgrep
 				assert.strictEqual(response.headers.location, `${nconf.get('relative_path')}/`);
 			});
 
