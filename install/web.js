@@ -87,10 +87,21 @@ web.install = async function (port) {
 		saveUninitialized: false,
 		cookie: {
 			httpOnly: true,
-			secure: false, // Web installer may run on HTTP during setup
+			// SECURITY: secure is set to 'auto' which enables it only over HTTPS
+			// For local development over HTTP, cookies will still work but are less secure
+			// RECOMMENDATION: Use HTTPS even during installation to protect session tokens
+			secure: 'auto',
 			maxAge: 3600000, // 1 hour
 		},
 	}));
+
+	// Log security warning if not using HTTPS
+	app.use((req, res, next) => {
+		if (req.protocol !== 'https' && req.hostname !== 'localhost' && req.hostname !== '127.0.0.1') {
+			winston.warn('[installer] Running over HTTP on a non-local network. Session cookies are vulnerable to interception. Use HTTPS for production installations.');
+		}
+		next();
+	});
 
 	try {
 		await Promise.all([
