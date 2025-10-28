@@ -126,7 +126,18 @@ async function testDatabase(req, res) {
 	try {
 		const keys = Object.keys(req.query);
 		const dbName = keys[0].split(':')[0];
-		db = require(`../src/database/${dbName}`);
+		
+		// Explicitly require each allowed database to avoid dynamic require pattern
+		const databases = {
+			mongo: require('../src/database/mongo'),
+			redis: require('../src/database/redis'),
+			postgres: require('../src/database/postgres'),
+		};
+		
+		db = databases[dbName];
+		if (!db) {
+			return res.json({ error: 'Invalid database type' });
+		}
 
 		const opts = {};
 		keys.forEach((key) => {
