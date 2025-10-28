@@ -155,8 +155,8 @@ Emailer.setupFallbackTransport = (config) => {
 		}
 		// TLS verification bypass is intentional and only enabled when explicitly configured
 		// via 'email:smtpTransport:allow-self-signed' setting (useful for dev/testing)
-		// nosemgrep
 		if (config['email:smtpTransport:allow-self-signed']) {
+			// nosemgrep
 			smtpOptions.tls = {
 				rejectUnauthorized: false,
 			};

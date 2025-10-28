@@ -28,9 +28,8 @@ themesController.get = async function (req, res, next) {
 		return next(err);
 	}
 
-	// nosemgrep
 	const screenshotPath = themeConfig.screenshot ?
-		path.join(themeDir, themeConfig.screenshot) :
+		path.join(themeDir, themeConfig.screenshot) : // nosemgrep
 		'';
 
 	// Guard against path traversal - ensure path stays within theme directory

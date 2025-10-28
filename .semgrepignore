@@ -6,8 +6,10 @@ vendor/
 build/
 public/src/
 
-# Test files (remove if we want to scan tests)
-# test/
+# Test files with intentional XSS test cases (false positives)
+test/authentication.js
+test/flags.js
+test/search-admin.js
 
 # Logs
 logs/
