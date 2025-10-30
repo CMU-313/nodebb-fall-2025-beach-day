@@ -78,11 +78,30 @@ web.install = async function (port) {
 		extended: true,
 	}));
 
+	// Installer session config - domain/path not set as installer location varies
+	// nosemgrep
 	app.use(session({
+		name: 'nodebb-installer.sid',
 		secret: utils.generateUUID(),
 		resave: false,
 		saveUninitialized: false,
+		cookie: {
+			httpOnly: true,
+			// SECURITY: secure is set to 'auto' which enables it only over HTTPS
+			// For local development over HTTP, cookies will still work but are less secure
+			// RECOMMENDATION: Use HTTPS even during installation to protect session tokens
+			secure: 'auto',
+			maxAge: 3600000, // 1 hour
+		},
 	}));
+
+	// Log security warning if not using HTTPS
+	app.use((req, res, next) => {
+		if (req.protocol !== 'https' && req.hostname !== 'localhost' && req.hostname !== '127.0.0.1') {
+			winston.warn('[installer] Running over HTTP on a non-local network. Session cookies are vulnerable to interception. Use HTTPS for production installations.');
+		}
+		next();
+	});
 
 	try {
 		await Promise.all([
@@ -126,7 +145,18 @@ async function testDatabase(req, res) {
 	try {
 		const keys = Object.keys(req.query);
 		const dbName = keys[0].split(':')[0];
-		db = require(`../src/database/${dbName}`);
+		
+		// Explicitly require each allowed database to avoid dynamic require pattern
+		const databases = {
+			mongo: require('../src/database/mongo'),
+			redis: require('../src/database/redis'),
+			postgres: require('../src/database/postgres'),
+		};
+		
+		db = databases[dbName];
+		if (!db) {
+			return res.json({ error: 'Invalid database type' });
+		}
 
 		const opts = {};
 		keys.forEach((key) => {

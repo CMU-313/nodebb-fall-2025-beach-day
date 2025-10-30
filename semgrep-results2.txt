@@ -1,0 +1,4 @@
+
+> nodebb@4.4.6 semgrep
+> semgrep scan --config p/security-audit --config p/owasp-top-ten --config p/nodejs --config p/javascript
+

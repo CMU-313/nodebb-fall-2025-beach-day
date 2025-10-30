@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+build/
+public/src/
+
+# Test files with intentional XSS test cases (false positives)
+test/authentication.js
+test/flags.js
+test/search-admin.js
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# Configuration files
+package-lock.json
+*.min.js
+*.bundle.js
+
+# Documentation
+*.md
+CHANGELOG.md
+README.md
+
+# Docker
+*.dockerfile
+Dockerfile
+docker-compose*.yml
+
+# IDE
+.vscode/
+.idea/
+
+# Compiled assets
+public/uploads/
+

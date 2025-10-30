@@ -164,6 +164,9 @@ Configs.cookie = {
 			cookie.path = relativePath;
 		}
 
+		// Protect against XSS attacks by preventing JavaScript access to cookies
+		cookie.httpOnly = true;
+
 		// Ideally configurable from ACP, but cannot be "Strict" as then top-level access will treat it as guest.
 		cookie.sameSite = 'Lax';
 

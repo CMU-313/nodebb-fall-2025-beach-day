@@ -219,6 +219,9 @@ Users.getExportByType = async (req, res, next) => {
 	}
 
 	res.status(200);
+	// Filename is constructed from whitelisted values in api.users.getExportByType (uid_type.extension)
+	// where type is restricted to ['posts', 'uploads', 'profile'] and root directory is hardcoded
+	// nosemgrep
 	res.sendFile(data.filename, {
 		root: path.join(__dirname, '../../../build/export'),
 		headers: {

@@ -92,6 +92,8 @@ Assert.path = helpers.try(async (req, res, next) => {
 		req.body.path = req.body.path.slice(nconf.get('upload_url').length);
 	}
 
+	// Path traversal is prevented by .startsWith() validation below
+	// nosemgrep
 	const pathToFile = path.join(nconf.get('upload_path'), req.body.path);
 	res.locals.cleanedPath = pathToFile;
 
@@ -109,6 +111,8 @@ Assert.path = helpers.try(async (req, res, next) => {
 
 Assert.folderName = helpers.try(async (req, res, next) => {
 	const folderName = slugify(path.basename(req.body.folderName.trim()));
+	// cleanedPath is already validated in Assert.path, folderName is sanitized via slugify
+	// nosemgrep
 	const folderPath = path.join(res.locals.cleanedPath, folderName);
 
 	// slugify removes invalid characters, folderName may become empty

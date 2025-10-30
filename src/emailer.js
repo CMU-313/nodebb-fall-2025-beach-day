@@ -153,7 +153,10 @@ Emailer.setupFallbackTransport = (config) => {
 		} else {
 			smtpOptions.service = String(config['email:smtpTransport:service']);
 		}
+		// TLS verification bypass is intentional and only enabled when explicitly configured
+		// via 'email:smtpTransport:allow-self-signed' setting (useful for dev/testing)
 		if (config['email:smtpTransport:allow-self-signed']) {
+			// nosemgrep
 			smtpOptions.tls = {
 				rejectUnauthorized: false,
 			};

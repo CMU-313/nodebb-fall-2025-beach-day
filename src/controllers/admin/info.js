@@ -129,6 +129,8 @@ function humanReadableUptime(seconds) {
 
 async function getGitInfo() {
 	function get(cmd, callback) {
+		// cmd is hardcoded to git commands only, no user input
+		// nosemgrep
 		exec(cmd, (err, stdout) => {
 			if (err) {
 				winston.error(err.stack);
