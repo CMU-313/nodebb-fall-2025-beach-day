@@ -71,6 +71,8 @@ define('forum/topic', [
 		handleThumbs();
 
 		$(window).on('scroll', utils.debounce(updateTopicTitle, 250));
+		configurePostToggle();
+
 
 		handleTopicSearch();
 
@@ -90,7 +92,7 @@ define('forum/topic', [
 			}
 		});
 	}
-	
+
 	function handleTopicSearch() {
 		require(['mousetrap'], (mousetrap) => {
 			if (config.topicSearchEnabled) {
