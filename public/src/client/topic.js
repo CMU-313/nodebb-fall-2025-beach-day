@@ -499,3 +499,4 @@ define('forum/topic', [
 
 	return Topic;
 });
+require(['src/translate/index']);
