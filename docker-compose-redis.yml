@@ -45,6 +45,8 @@ services:
       - redis-data:/data
 
 volumes:
+  ollama_data:
+
   redis-data:
     driver: local
     driver_opts:
